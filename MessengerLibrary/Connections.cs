@@ -22,8 +22,7 @@ public interface IEndPoint
 
 public class ConnectionStream : Stream
 {
-
-    IConnection connection;
+    private readonly IConnection connection;
 
     public ConnectionStream(IConnection connection)
     {
@@ -40,25 +39,13 @@ public class ConnectionStream : Stream
         return this.connection.ReceiveAsync(buffer, offset, count);
     }
 
-    public override bool CanRead
-    {
-        get { return true; }
-    }
+    public override bool CanRead => true;
 
-    public override bool CanWrite
-    {
-        get { return true; }
-    }
+    public override bool CanWrite => true;
 
-    public override bool CanSeek
-    {
-        get { return false; }
-    }
+    public override bool CanSeek => false;
 
-    public override long Length
-    {
-        get { throw new NotImplementedException(); }
-    }
+    public override long Length => throw new NotImplementedException();
 
     public override int Read(byte[] buffer, int offset, int count)
     {
@@ -87,8 +74,8 @@ public class ConnectionStream : Stream
 
     public override long Position
     {
-        get { throw new NotImplementedException(); }
-        set { throw new NotImplementedException(); }
+        get => throw new NotImplementedException();
+        set => throw new NotImplementedException();
     }
 }
 

@@ -407,10 +407,10 @@ public class LocalUser : User
         if (new UserProperty[] { UserProperty.HomePhone, UserProperty.WorkPhone, UserProperty.MobilePhone }.Contains(property))
         {
             if (value == null)
-                throw new ArgumentNullException("Property value must be specified.");
+                throw new ArgumentNullException(nameof(value), "Property value must be specified.");
 
             if (Encoding.UTF8.GetByteCount(value) > 95)
-                throw new ArgumentException("Property value too long.", "value");
+                throw new ArgumentException("Property value too long.", nameof(value));
         }
 
         if (property == UserProperty.HasBlog)
@@ -418,7 +418,7 @@ public class LocalUser : User
 
         if (property == UserProperty.MobileDevice &&
             (value != User.MobileDeviceEnabled && value != User.MobileDeviceDisabled))
-            throw new ArgumentException("Invalid property value.", "value");
+            throw new ArgumentException("Invalid property value.", nameof(value));
 
         if (property == UserProperty.AuthorizedMobile && value == User.AuthorizedMobileEnabled &&
             (client.LocalUser.GetPropertyInner(UserProperty.MobileDevice) != User.MobileDeviceEnabled))

@@ -138,7 +138,7 @@ public class IMSession : IDisposable
     {
 
         if (message.Body != null && message.Body.Length > 1664)
-            throw new ArgumentException("The message body is too long.", "message");
+            throw new ArgumentException("The message body is too long.", nameof(message));
 
         SendMessageCommand cmd = null;
         Task<Command> getResponseAsync = null;

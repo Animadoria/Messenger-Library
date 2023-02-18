@@ -118,7 +118,7 @@ public class SocketConnection : IConnection
         SocketEndPoint socketEndPoint = remoteEP as SocketEndPoint;
 
         if (socketEndPoint == null)
-            throw new ArgumentException("remoteEP must be of type SocketEndPoint", "remoteEP");
+            throw new ArgumentException("remoteEP must be of type SocketEndPoint", nameof(remoteEP));
 
         this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 

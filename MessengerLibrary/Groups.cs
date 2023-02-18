@@ -30,7 +30,7 @@ public class Group
     {
 
         if (String.IsNullOrEmpty(name))
-            throw new ArgumentNullException("A name must be specified.");
+            throw new ArgumentNullException(name, "A name must be specified.");
 
         if (Encoding.UTF8.GetByteCount(name) > 61)
             throw new ArgumentException("The name specified was too long.");

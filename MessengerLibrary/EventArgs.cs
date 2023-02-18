@@ -1,268 +1,264 @@
 ﻿using System;
-using MessengerLibrary.Connections;
 
-namespace MessengerLibrary
+namespace MessengerLibrary;
+
+public class ServerNotificationEventArgs : EventArgs
 {
 
-    public class ServerNotificationEventArgs : EventArgs
+    internal ServerNotificationEventArgs(string message)
     {
-
-        internal ServerNotificationEventArgs(string message)
-        {
-            Message = message;
-        }
-
-        public string Message { get; private set; }
-
+        Message = message;
     }
 
-    public class PrivacySettingEventArgs : EventArgs
+    public string Message { get; private set; }
+
+}
+
+public class PrivacySettingEventArgs : EventArgs
+{
+
+    internal PrivacySettingEventArgs(PrivacySetting privacySetting, string value, bool loginEvent)
     {
-
-        internal PrivacySettingEventArgs(PrivacySetting privacySetting, string value, bool loginEvent)
-        {
-            PrivacySetting = privacySetting;
-            Value = value;
-            LoginEvent = LoginEvent;
-        }
-
-        public PrivacySetting PrivacySetting { get; private set; }
-        public string Value { get; private set; }
-        public bool LoginEvent { get; private set; }
+        PrivacySetting = privacySetting;
+        Value = value;
+        LoginEvent = LoginEvent;
     }
 
-    public class LoggedOutEventArgs : EventArgs
+    public PrivacySetting PrivacySetting { get; private set; }
+    public string Value { get; private set; }
+    public bool LoginEvent { get; private set; }
+}
+
+public class LoggedOutEventArgs : EventArgs
+{
+
+    internal LoggedOutEventArgs(LogoutReason reason, ConnectionErrorException connectionError)
     {
-
-        internal LoggedOutEventArgs(LogoutReason reason, ConnectionErrorException connectionError)
-        {
-            Reason = reason;
-            ConnectionError = connectionError;
-        }
-
-        public LogoutReason Reason { get; private set; }
-        public ConnectionErrorException ConnectionError { get; private set; }
-
+        Reason = reason;
+        ConnectionError = connectionError;
     }
 
-    public class UserBroadcastEventArgs : EventArgs
+    public LogoutReason Reason { get; private set; }
+    public ConnectionErrorException ConnectionError { get; private set; }
+
+}
+
+public class UserBroadcastEventArgs : EventArgs
+{
+
+    internal UserBroadcastEventArgs(User user, string message)
     {
-
-        internal UserBroadcastEventArgs(User user, string message)
-        {
-            User = user;
-            Message = message;
-        }
-
-        public User User { get; private set; }
-        public string Message { get; private set; }
-
+        User = user;
+        Message = message;
     }
 
-    public class UserNicknameEventArgs : EventArgs
+    public User User { get; private set; }
+    public string Message { get; private set; }
+
+}
+
+public class UserNicknameEventArgs : EventArgs
+{
+
+    internal UserNicknameEventArgs(User user, string nickname, string previousNickname, bool loginEvent)
     {
-
-        internal UserNicknameEventArgs(User user, string nickname, string previousNickname, bool loginEvent)
-        {
-            User = user;
-            Nickname = nickname;
-            PreviousNickname = previousNickname;
-            LoginEvent = LoginEvent;
-        }
-
-        public User User { get; private set; }
-        public string Nickname { get; private set; }
-        public string PreviousNickname { get; private set; }
-        public bool LoginEvent { get; private set; }
+        User = user;
+        Nickname = nickname;
+        PreviousNickname = previousNickname;
+        LoginEvent = LoginEvent;
     }
 
-    public class UserStatusEventArgs : EventArgs
+    public User User { get; private set; }
+    public string Nickname { get; private set; }
+    public string PreviousNickname { get; private set; }
+    public bool LoginEvent { get; private set; }
+}
+
+public class UserStatusEventArgs : EventArgs
+{
+
+    internal UserStatusEventArgs(User user, UserStatus userStatus, UserStatus previousStatus, bool loginEvent)
     {
-
-        internal UserStatusEventArgs(User user, UserStatus userStatus, UserStatus previousStatus, bool loginEvent)
-        {
-            User = user;
-            Status = userStatus;
-            PreviousStatus = previousStatus;
-            LoginEvent = loginEvent;
-        }
-
-        public User User { get; private set; }
-        public UserStatus Status { get; private set; }
-        public UserStatus PreviousStatus { get; private set; }
-        public bool LoginEvent { get; private set; }
-
+        User = user;
+        Status = userStatus;
+        PreviousStatus = previousStatus;
+        LoginEvent = loginEvent;
     }
 
-    public class UserDisplayPictureEventArgs : EventArgs
+    public User User { get; private set; }
+    public UserStatus Status { get; private set; }
+    public UserStatus PreviousStatus { get; private set; }
+    public bool LoginEvent { get; private set; }
+
+}
+
+public class UserDisplayPictureEventArgs : EventArgs
+{
+
+    internal UserDisplayPictureEventArgs(User user, MSNObject displayPicture, bool loginEvent)
     {
-
-        internal UserDisplayPictureEventArgs(User user, MSNObject displayPicture, bool loginEvent)
-        {
-            User = user;
-            DisplayPicture = displayPicture;
-            LoginEvent = LoginEvent;
-        }
-
-        public User User { get; private set; }
-        public MSNObject DisplayPicture { get; private set; }
-        public bool LoginEvent { get; private set; }
+        User = user;
+        DisplayPicture = displayPicture;
+        LoginEvent = LoginEvent;
     }
 
-    public class UserCapabilitiesEventArgs : EventArgs
+    public User User { get; private set; }
+    public MSNObject DisplayPicture { get; private set; }
+    public bool LoginEvent { get; private set; }
+}
+
+public class UserCapabilitiesEventArgs : EventArgs
+{
+
+    internal UserCapabilitiesEventArgs(User user, UserCapabilities capabilities, bool loginEvent)
     {
-
-        internal UserCapabilitiesEventArgs(User user, UserCapabilities capabilities, bool loginEvent)
-        {
-            User = user;
-            Capabilities = capabilities;
-            LoginEvent = LoginEvent;
-        }
-
-        public User User { get; private set; }
-        public UserCapabilities Capabilities { get; private set; }
-        public bool LoginEvent { get; private set; }
+        User = user;
+        Capabilities = capabilities;
+        LoginEvent = LoginEvent;
     }
 
-    public class UserPropertyEventArgs : EventArgs
+    public User User { get; private set; }
+    public UserCapabilities Capabilities { get; private set; }
+    public bool LoginEvent { get; private set; }
+}
+
+public class UserPropertyEventArgs : EventArgs
+{
+
+    internal UserPropertyEventArgs(User user, UserProperty property, string value, bool loginEvent)
     {
-
-        internal UserPropertyEventArgs(User user, UserProperty property, string value, bool loginEvent)
-        {
-            User = user;
-            Property = property;
-            Value = value;
-            LoginEvent = LoginEvent;
-        }
-
-        public User User { get; private set; }
-        public UserProperty Property { get; private set; }
-        public string Value { get; private set; }
-        public bool LoginEvent { get; private set; }
-
+        User = user;
+        Property = property;
+        Value = value;
+        LoginEvent = LoginEvent;
     }
 
-    public class IMSessionEventArgs : EventArgs
+    public User User { get; private set; }
+    public UserProperty Property { get; private set; }
+    public string Value { get; private set; }
+    public bool LoginEvent { get; private set; }
+
+}
+
+public class IMSessionEventArgs : EventArgs
+{
+
+    internal IMSessionEventArgs(IMSession imSession, IMSessionInvitation invitation)
     {
-
-        internal IMSessionEventArgs(IMSession imSession, IMSessionInvitation invitation)
-        {
-            IMSession = imSession;
-            Invitation = invitation;
-        }
-
-        public IMSession IMSession { get; private set; }
-        public IMSessionInvitation Invitation { get; private set; }
-
+        IMSession = imSession;
+        Invitation = invitation;
     }
 
-    public class InvitationEventArgs : EventArgs
+    public IMSession IMSession { get; private set; }
+    public IMSessionInvitation Invitation { get; private set; }
+
+}
+
+public class InvitationEventArgs : EventArgs
+{
+
+    internal InvitationEventArgs(IMSessionInvitation invitation)
     {
-
-        internal InvitationEventArgs(IMSessionInvitation invitation)
-        {
-            Invitation = invitation;
-        }
-
-        public IMSessionInvitation Invitation { get; private set; }
-
+        Invitation = invitation;
     }
 
-    public class UserListUserEventArgs : EventArgs
+    public IMSessionInvitation Invitation { get; private set; }
+
+}
+
+public class UserListUserEventArgs : EventArgs
+{
+
+    internal UserListUserEventArgs(User user, UserList userList, bool loginEvent)
     {
-
-        internal UserListUserEventArgs(User user, UserList userList, bool loginEvent)
-        {
-            User = user;
-            UserList = userList;
-            LoginEvent = LoginEvent;
-        }
-
-        public User User { get; private set; }
-        public UserList UserList { get; private set; }
-        public bool LoginEvent { get; private set; }
+        User = user;
+        UserList = userList;
+        LoginEvent = LoginEvent;
     }
 
-    public class GroupUserEventArgs : EventArgs
+    public User User { get; private set; }
+    public UserList UserList { get; private set; }
+    public bool LoginEvent { get; private set; }
+}
+
+public class GroupUserEventArgs : EventArgs
+{
+
+    internal GroupUserEventArgs(User user, Group group, bool loginEvent)
     {
-
-        internal GroupUserEventArgs(User user, Group group, bool loginEvent)
-        {
-            User = user;
-            Group = group;
-            LoginEvent = loginEvent;
-        }
-
-        public User User { get; private set; }
-        public Group Group { get; private set; }
-        public bool LoginEvent { get; private set; }
+        User = user;
+        Group = group;
+        LoginEvent = loginEvent;
     }
 
-    public class GroupNameEventArgs : EventArgs
+    public User User { get; private set; }
+    public Group Group { get; private set; }
+    public bool LoginEvent { get; private set; }
+}
+
+public class GroupNameEventArgs : EventArgs
+{
+
+    internal GroupNameEventArgs(Group group, string name, string previousName, bool loginEvent)
     {
-
-        internal GroupNameEventArgs(Group group, string name, string previousName, bool loginEvent)
-        {
-            Group = group;
-            Name = name;
-            PreviousName = previousName;
-            LoginEvent = LoginEvent;
-        }
-
-        public Group Group { get; private set; }
-        public string Name { get; private set; }
-        public string PreviousName { get; private set; }
-        public bool LoginEvent { get; private set; }
+        Group = group;
+        Name = name;
+        PreviousName = previousName;
+        LoginEvent = LoginEvent;
     }
 
-    public class GroupEventArgs : EventArgs
+    public Group Group { get; private set; }
+    public string Name { get; private set; }
+    public string PreviousName { get; private set; }
+    public bool LoginEvent { get; private set; }
+}
+
+public class GroupEventArgs : EventArgs
+{
+
+    internal GroupEventArgs(Group group, bool loginEvent)
     {
-
-        internal GroupEventArgs(Group group, bool loginEvent)
-        {
-            Group = group;
-            LoginEvent = LoginEvent;
-        }
-
-        public Group Group { get; private set; }
-        public bool LoginEvent { get; private set; }
-
+        Group = group;
+        LoginEvent = LoginEvent;
     }
 
-    public class UserEventArgs : EventArgs
+    public Group Group { get; private set; }
+    public bool LoginEvent { get; private set; }
+
+}
+
+public class UserEventArgs : EventArgs
+{
+
+    internal UserEventArgs(User user)
     {
-
-        internal UserEventArgs(User user)
-        {
-            User = user;
-        }
-
-        public User User { get; private set; }
-
+        User = user;
     }
 
-    public class MessageEventArgs : EventArgs
+    public User User { get; private set; }
+
+}
+
+public class MessageEventArgs : EventArgs
+{
+
+    internal MessageEventArgs(User user, Message message)
     {
-
-        internal MessageEventArgs(User user, Message message)
-        {
-            Sender = user;
-            Message = message;
-        }
-
-        internal MessageEventArgs(string senderLoginName, string senderNickname, Message message, bool loginEvent)
-        {
-            SenderLoginName = senderLoginName;
-            SenderNickname = senderNickname;
-            Message = message;
-            LoginEvent = loginEvent;
-        }
-
-        public User Sender { get; private set; }
-        public Message Message { get; private set; }
-        public string SenderLoginName { get; private set; }
-        public string SenderNickname { get; private set; }
-        public bool LoginEvent { get; private set; }
+        Sender = user;
+        Message = message;
     }
 
+    internal MessageEventArgs(string senderLoginName, string senderNickname, Message message, bool loginEvent)
+    {
+        SenderLoginName = senderLoginName;
+        SenderNickname = senderNickname;
+        Message = message;
+        LoginEvent = loginEvent;
+    }
+
+    public User Sender { get; private set; }
+    public Message Message { get; private set; }
+    public string SenderLoginName { get; private set; }
+    public string SenderNickname { get; private set; }
+    public bool LoginEvent { get; private set; }
 }

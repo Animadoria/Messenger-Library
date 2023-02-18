@@ -1,27 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reactive.Subjects;
-using System.Reactive;
 using System.Reactive.Linq;
+
+namespace MessengerLibrary;
 
 public static class ObservableExtensions
 {
 
     public static IObservable<TSource> TakeUntil<TSource>(
-            this IObservable<TSource> source, Func<TSource, bool> predicate)
+        this IObservable<TSource> source, Func<TSource, bool> predicate)
     {
         return Observable.Create<TSource>(o => source.Subscribe(x =>
-            {
-                o.OnNext(x);
-                if (predicate(x))
-                    o.OnCompleted();
-            },
-            o.OnError,
-            o.OnCompleted
-        ));
+                                                                {
+                                                                    o.OnNext(x);
+                                                                    if (predicate(x))
+                                                                        o.OnCompleted();
+                                                                },
+                                                                o.OnError,
+                                                                o.OnCompleted
+                                          ));
     }
 
 }
@@ -93,4 +89,3 @@ public static class ByteExt
     }
 
 }
-

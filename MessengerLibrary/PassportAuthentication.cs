@@ -1,96 +1,71 @@
 ﻿using System;
-using System.Net;
-using System.Threading;
 using System.Collections.Generic;
-using System.Net.Sockets;
-using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
-namespace MessengerLibrary.Authentication
+namespace MessengerLibrary;
+
+public class PassportAuthentication
 {
-
-    public class PassportAuthentication
+    public async Task<string> GetToken(string loginName, string password, string authTicket)
     {
-
-        public async Task<string> GetToken(string loginName, string password, string authTicket)
+        try
         {
+            HttpWebRequest redirectRequest =
+                HttpWebRequest.Create("https://msnmsgr.escargot.chat/rdr/pprdr.asp") as HttpWebRequest;
+            HttpWebResponse redirectResponse = await redirectRequest.GetResponseAsync() as HttpWebResponse;
 
-            try
-            {
+            //splits a string like this into a dict
+            //something=blue,somethingelse=green,somethingelse2=orange
 
-                HttpWebRequest redirectRequest = HttpWebRequest.Create("https://msnmsgr.escargot.chat/rdr/pprdr.asp") as HttpWebRequest;
-                HttpWebResponse redirectResponse = await redirectRequest.GetResponseAsync() as HttpWebResponse;
+            Dictionary<string, string> passportURLs = null;
 
-                //splits a string like this into a dict
-                //something=blue,somethingelse=green,somethingelse2=orange
+            using (redirectResponse)
+                passportURLs = redirectResponse.Headers["Passporturls"]
+                                               .Split(',')
+                                               .Select(x => x.Split('='))
+                                               .ToDictionary(x => x[0], x => x[1]);
 
-                Dictionary<string, string> passportURLs = null;
+            //string daRealmUrl = passportURLs["DARealm"];
+            string daLoginUrl = passportURLs["DALogin"];
+            /*string daRegUrl = passportURLs["DAReg"];
+            string propertiesUrl = passportURLs["Properties"];
+            string privacyUrl = passportURLs["Privacy"];
+            string generalRedirUrl = passportURLs["GeneralRedir"];
+            string HelpUrl = passportURLs["Help"];
+            string configVersion = passportURLs["ConfigVersion"];*/
 
-                using (redirectResponse)
-                    passportURLs = redirectResponse.Headers["Passporturls"]
-                        .Split(',')
-                        .Select(x => x.Split('='))
-                        .ToDictionary(x => x[0], x => x[1]);
+            string authHeader = String.Format("Passport1.4 OrgVerb=GET,OrgURL={0},sign-in={1},pwd={2},{3}",
+                                              Uri.EscapeDataString("http://messenger.msn.com"), loginName, password,
+                                              authTicket);
 
-                //string daRealmUrl = passportURLs["DARealm"];
-                string daLoginUrl = passportURLs["DALogin"];
-                /*string daRegUrl = passportURLs["DAReg"];
-                string propertiesUrl = passportURLs["Properties"];
-                string privacyUrl = passportURLs["Privacy"];
-                string generalRedirUrl = passportURLs["GeneralRedir"];
-                string HelpUrl = passportURLs["Help"];
-                string configVersion = passportURLs["ConfigVersion"];*/
+            HttpWebRequest tokenRequest = (HttpWebRequest)HttpWebRequest.Create(daLoginUrl);
+            //_tokenRequest.AllowAutoRedirect = false;
+            tokenRequest.Headers.Add("Authorization", authHeader);
 
-                string authHeader = String.Format("Passport1.4 OrgVerb=GET,OrgURL={0},sign-in={1},pwd={2},{3}", Uri.EscapeDataString("http://messenger.msn.com"), loginName, password, authTicket);
+            HttpWebResponse tokenResponse = (HttpWebResponse)await tokenRequest.GetResponseAsync();
 
-                HttpWebRequest tokenRequest = (HttpWebRequest)HttpWebRequest.Create(daLoginUrl);
-                //_tokenRequest.AllowAutoRedirect = false;
-                tokenRequest.Headers.Add("Authorization", authHeader);
+            string authToken = null;
 
-                HttpWebResponse tokenResponse = (HttpWebResponse)await tokenRequest.GetResponseAsync();
+            //a little hacky, takes 'the target' from below string
+            //something=blue,somethingelse='the target',somethingelse2=orange
+            using (tokenResponse)
+                authToken = tokenResponse.Headers["Authentication-Info"].Split('\'')[1];
 
-                string authToken = null;
-
-                //a little hacky, takes 'the target' from below string
-                //something=blue,somethingelse='the target',somethingelse2=orange
-                using (tokenResponse)
-                    authToken = tokenResponse.Headers["Authentication-Info"].Split('\'')[1];
-
-                return authToken;
-
-
-            }
-            catch (WebException ex)
-            {
-                throw new AuthenticationErrorException(ex);
-            }
-
-
+            return authToken;
         }
-
-    }
-
-    public class AuthenticationErrorException : Exception
-    {
-        internal AuthenticationErrorException(WebException innerException)
-            : base("Authentication failed: " + innerException.Message, innerException)
+        catch (WebException ex)
         {
+            throw new AuthenticationErrorException(ex);
         }
     }
-
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+public class AuthenticationErrorException : Exception
+{
+    internal AuthenticationErrorException(WebException innerException)
+        : base("Authentication failed: " + innerException.Message, innerException)
+    {
+    }
+}

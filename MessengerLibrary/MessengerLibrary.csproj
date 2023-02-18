@@ -1,8 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
+        <Title>Kwerty Messenger Library</Title>
+        <Description>A framework for the .NET Messenger service. Patched to be used in Escargot</Description>
+        <Copyright>Copyright (c) Kwerty 2013; (C) Animadoria 2022</Copyright>
     </PropertyGroup>
     <ItemGroup>
       <PackageReference Include="System.Reactive" Version="5.0.0" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Properties" />
     </ItemGroup>
 </Project>

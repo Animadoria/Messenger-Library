@@ -23,7 +23,7 @@ using System.Diagnostics;
 namespace MessengerLibrary
 {
 
-    public class MessengerClient : IDisposable 
+    public class MessengerClient : IDisposable
     {
 
         internal AsyncReaderWriterLock @lock;
@@ -102,7 +102,7 @@ namespace MessengerLibrary
 
                 int transferCount = 0;
 
-                SocketEndPoint endPoint = SocketEndPoint.Parse("messenger.hotmail.com:1863");
+                SocketEndPoint endPoint = SocketEndPoint.Parse("msnmsgr.escargot.chat:1863");
 
                 string authTicket = null;
 
@@ -143,13 +143,13 @@ namespace MessengerLibrary
                         { "REM", typeof(RemoveContactCommand) },
                         { "ADG", typeof(AddGroupCommand) },
                         { "RMG", typeof(RemoveGroupCommand) },
-                        { "REG", typeof(RenameGroupCommand) },  
-                        { "QRY", typeof(AcceptChallengeCommand) },  
+                        { "REG", typeof(RenameGroupCommand) },
+                        { "QRY", typeof(AcceptChallengeCommand) },
                         { "RNG", typeof(RingCommand) },
                         { "SBP", typeof(ChangeUserPropertyCommand) },
                         { "IMS", typeof(EnableIMCommand) },
                     });
-                    
+
                     commands = reader.GetReadObservable().Publish();
                     responseTracker = new ResponseTracker(writer, commands);
 
@@ -185,7 +185,7 @@ namespace MessengerLibrary
 
                     else if (userResponse is TransferCommand)
                     {
-                        
+
                         TransferCommand transferResponse = userResponse as TransferCommand;
 
                         if (transferCount > 3)
@@ -223,11 +223,11 @@ namespace MessengerLibrary
 
                     syncCommands = new List<Command>();
 
-                    Type[] syncTypes = new Type[] { 
-                        typeof(MessageCommand), 
-                        typeof(UserCommand), 
-                        typeof(GroupCommand), 
-                        typeof(LocalPropertyCommand), 
+                    Type[] syncTypes = new Type[] {
+                        typeof(MessageCommand),
+                        typeof(UserCommand),
+                        typeof(GroupCommand),
+                        typeof(LocalPropertyCommand),
                         typeof(PrivacySettingCommand),
                     };
 
@@ -523,7 +523,7 @@ namespace MessengerLibrary
             try
             {
 
-  
+
                 if (closed)
                     throw new ObjectDisposedException(GetType().Name);
 

@@ -59,9 +59,9 @@ public class Message
         StringBuilder b = new StringBuilder();
 
         foreach (var h in Headers)
-            b.AppendFormat("{0}: {1}", h.Key, h.Value).AppendLine();
+            b.AppendFormat("{0}: {1}", h.Key, h.Value).Append("\r\n");
 
-        b.AppendLine();
+        b.Append("\r\n");
 
         string hStr = b.ToString();
 
@@ -160,7 +160,7 @@ public class MessageFormatter
 
             Color = ColorTranslator.FromHtml("#" + string.Concat(rgb));
         }
-                    
+
 
     }
 

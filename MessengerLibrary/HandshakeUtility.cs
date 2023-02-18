@@ -29,7 +29,7 @@ public static class HandshakeUtility
 
         ulong uPartOne = ulong.Parse(strMD5Hash.Substring(0, 16), NumberStyles.HexNumber);
         ulong uPartTwo = ulong.Parse(strMD5Hash.Substring(16, 16), NumberStyles.HexNumber);
-        return String.Format("{0:x16}{1:x16}", uPartOne ^ uKey, uPartTwo ^ uKey);
+        return string.Format("{0:x16}{1:x16}", uPartOne ^ uKey, uPartTwo ^ uKey);
     }
 
     static ulong[] MD5_To_Int(string strMD5Hash)
@@ -69,15 +69,15 @@ public static class HandshakeUtility
             low += high + temp;
         }
 
-        high = ulong.Parse(Swap_Bytes(String.Format("{0:x8}", (high + uMD5Ints[1]) % 0x7FFFFFFF), 2), NumberStyles.HexNumber);
-        low = ulong.Parse(Swap_Bytes(String.Format("{0:x8}", (low + uMD5Ints[3]) % 0x7FFFFFFF), 2), NumberStyles.HexNumber);
+        high = ulong.Parse(Swap_Bytes(string.Format("{0:x8}", (high + uMD5Ints[1]) % 0x7FFFFFFF), 2), NumberStyles.HexNumber);
+        low = ulong.Parse(Swap_Bytes(string.Format("{0:x8}", (low + uMD5Ints[3]) % 0x7FFFFFFF), 2), NumberStyles.HexNumber);
 
         return (high << 32) + low;
     }
 
     static string To_Hex(byte[] bBinary)
     {
-        string strHex = String.Empty;
+        string strHex = string.Empty;
         foreach (byte i in bBinary)
             strHex += Convert.ToString(i, 16).PadLeft(2, '0');
 
@@ -87,7 +87,7 @@ public static class HandshakeUtility
     static string Swap_Bytes(string strString, int iStep)
     {
 
-        string strNewString = String.Empty;
+        string strNewString = string.Empty;
         for (int i = 0; i < strString.Length; i += iStep)
             strNewString = strString.Substring(i, iStep) + strNewString;
 

@@ -12,7 +12,7 @@ public class Message
 
     public Message()
     {
-        Headers = new Dictionary<String, String>();
+        Headers = new Dictionary<string, string>();
         Headers.Add("MIME-Version", "1.0");
         Headers.Add("Content-Type", "text/plain; charset=UTF-8");
         Body = new byte[0];
@@ -49,7 +49,7 @@ public class Message
         }
     }
 
-    public Dictionary<String, String> Headers { get; private set; }
+    public Dictionary<string, string> Headers { get; private set; }
 
     public byte[] Body { get; set; }
 
@@ -81,7 +81,7 @@ public class MessageFormatter
         Font = "Microsoft Sans Serif";
     }
 
-    public String Font { get; set; }
+    public string Font { get; set; }
     public bool Bold { get; set; }
     public bool Italic { get; set; }
     public bool Underline { get; set; }
@@ -122,7 +122,7 @@ public class MessageFormatter
         args.Add("CS", "0");
         args.Add("PF", "22");
 
-        message.Headers["X-MMS-IM-Format"] = String.Join("; ", args.Select(m => String.Format("{0}={1}", m.Key, m.Value)).ToArray());
+        message.Headers["X-MMS-IM-Format"] = string.Join("; ", args.Select(m => string.Format("{0}={1}", m.Key, m.Value)).ToArray());
 
     }
     public void CopyFormat(Message message)
@@ -158,7 +158,7 @@ public class MessageFormatter
                           .Reverse()
                           .ToArray();
 
-            Color = ColorTranslator.FromHtml("#" + String.Concat(rgb));
+            Color = ColorTranslator.FromHtml("#" + string.Concat(rgb));
         }
                     
 

@@ -29,7 +29,7 @@ public class LineWriter
 
     public Task WriteLineAsync(string format, params object[] arg)
     {
-        return this.WriteLineAsync(String.Format(format, arg));
+        return this.WriteLineAsync(string.Format(format, arg));
     }
 
     public async Task WriteAsync(byte[] buffer, int offset, int count)

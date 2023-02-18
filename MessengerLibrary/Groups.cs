@@ -29,7 +29,7 @@ public class Group
     public async Task ChangeNameAsync(string name)
     {
 
-        if (String.IsNullOrEmpty(name))
+        if (string.IsNullOrEmpty(name))
             throw new ArgumentNullException(name, "A name must be specified.");
 
         if (Encoding.UTF8.GetByteCount(name) > 61)

@@ -36,7 +36,7 @@ public class PassportAuthentication
             string HelpUrl = passportURLs["Help"];
             string configVersion = passportURLs["ConfigVersion"];*/
 
-            string authHeader = String.Format("Passport1.4 OrgVerb=GET,OrgURL={0},sign-in={1},pwd={2},{3}",
+            string authHeader = string.Format("Passport1.4 OrgVerb=GET,OrgURL={0},sign-in={1},pwd={2},{3}",
                                               Uri.EscapeDataString("http://messenger.msn.com"), loginName, password,
                                               authTicket);
 

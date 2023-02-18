@@ -40,7 +40,7 @@ public class CommandReader
 
         int errorCode;
 
-        if (commandType == null && Int32.TryParse(identifier, out errorCode))
+        if (commandType == null && int.TryParse(identifier, out errorCode))
             commandType = typeof(ServerErrorCommand);
 
         if (commandType == null)
@@ -252,7 +252,7 @@ public class EnableIMCommand : Command
     public override Task ReadAsync(string header, LineReader reader)
     {
         string[] args = header.Split(' ');
-        this.TrId = Int32.Parse(args[1]);
+        this.TrId = int.Parse(args[1]);
         this.Enabled = args[3] == "ON";
 
         return Task.FromResult<object>(null);
@@ -285,14 +285,14 @@ public class VersionCommand : Command
     public override Task ReadAsync(string header, LineReader reader)
     {
         string[] args = header.Split(' ');
-        this.TrId = Int32.Parse(args[1]);
+        this.TrId = int.Parse(args[1]);
         this.Versions = args.Skip(2).ToArray();
         return Task.FromResult<object>(null);
     }
 
     public override Task WriteAsync(LineWriter writer)
     {
-        return writer.WriteLineAsync("VER {0} {1}", this.TrId, String.Join(" ", this.Versions));
+        return writer.WriteLineAsync("VER {0} {1}", this.TrId, string.Join(" ", this.Versions));
     }
 
 }
@@ -318,7 +318,7 @@ public class ClientVersionCommand : Command
     public override Task ReadAsync(string header, LineReader reader)
     {
         string[] args = header.Split(' ');
-        this.TrId = Int32.Parse(args[1]);
+        this.TrId = int.Parse(args[1]);
         return Task.FromResult<object>(null);
     }
 
@@ -357,7 +357,7 @@ public class AuthenticateCommand : Command
     {
         string[] args = header.Split(' ');
 
-        this.TrId = Int32.Parse(args[1]);
+        this.TrId = int.Parse(args[1]);
         this.AuthType = args[2];
         this.Status = args[3];
         this.Argument = args[4];
@@ -399,7 +399,7 @@ public class TransferCommand : Command
 
         string[] args = header.Split(' ');
 
-        this.TrId = Int32.Parse(args[1]);
+        this.TrId = int.Parse(args[1]);
         this.ServerType = args[2];
         this.Host = args[3];
         this.AuthType = args[4];
@@ -440,14 +440,14 @@ public class SynchronizeCommand : Command
     {
         string[] args = header.Split(' ');
 
-        this.TrId = Int32.Parse(args[1]);
+        this.TrId = int.Parse(args[1]);
         this.TimeStamp1 = args[2];
         this.TimeStamp2 = args[3];
 
         if (args.Length > 4)
         {
-            this.UserCount = Int32.Parse(args[4]);
-            this.GroupCount = Int32.Parse(args[5]);
+            this.UserCount = int.Parse(args[4]);
+            this.GroupCount = int.Parse(args[5]);
         }
 
         return Task.FromResult<object>(null);
@@ -488,7 +488,7 @@ public class LocalPropertyCommand : Command
         if (args.Length > 3)
         {
             offset = 1;
-            this.TrId = Int32.Parse(args[1]);
+            this.TrId = int.Parse(args[1]);
         }
 
         this.Key = args[1 + offset];
@@ -543,7 +543,7 @@ public class ChangeStatusCommand : Command
     {
     }
 
-    public ChangeStatusCommand(string status, UInt32 capabilities, string displayPicture)
+    public ChangeStatusCommand(string status, uint capabilities, string displayPicture)
     {
         this.Status = status;
         this.Capabilities = capabilities;
@@ -555,9 +555,9 @@ public class ChangeStatusCommand : Command
 
         string[] args = header.Split(' ');
 
-        this.TrId = Int32.Parse(args[1]);
+        this.TrId = int.Parse(args[1]);
         this.Status = args[2];
-        this.Capabilities = UInt32.Parse(args[3]);
+        this.Capabilities = uint.Parse(args[3]);
 
         if (args.Length > 4)
             this.DisplayPicture = args[4];
@@ -600,7 +600,7 @@ public class ChangeUserPropertyCommand : Command
 
         string[] args = header.Split(' ');
 
-        this.TrId = Int32.Parse(args[1]);
+        this.TrId = int.Parse(args[1]);
         this.Guid = args[2];
         this.Key = args[3];
         this.Value = Uri.UnescapeDataString(args[4]);
@@ -624,7 +624,7 @@ public class AcknowledgementCommand : Command
     public override Task ReadAsync(string header, LineReader reader)
     {
         string[] args = header.Split(' ');
-        this.TrId = Int32.Parse(args[1]);
+        this.TrId = int.Parse(args[1]);
         return Task.FromResult<object>(null);
     }
 
@@ -638,7 +638,7 @@ public class NegativeAcknowledgementCommand : Command
     public override Task ReadAsync(string header, LineReader reader)
     {
         string[] args = header.Split(' ');
-        this.TrId = Int32.Parse(args[1]);
+        this.TrId = int.Parse(args[1]);
         return Task.FromResult<object>(null);
     }
 
@@ -690,7 +690,7 @@ public class MessageCommand : Command
 
         this.Sender = args[1];
         this.SenderNickname = args[2];
-        this.PayloadLength = Int32.Parse(args[3]);
+        this.PayloadLength = int.Parse(args[3]);
         this.Payload = new byte[this.PayloadLength];
 
         await reader.ReadAsync(this.Payload, 0, this.PayloadLength);
@@ -715,7 +715,7 @@ public class BroadcastCommand : Command
         string[] args = header.Split(' ');
 
         this.LoginName = args[1];
-        int payloadLength = Int32.Parse(args[2]);
+        int payloadLength = int.Parse(args[2]);
         byte[] payload = new byte[payloadLength];
 
         await reader.ReadAsync(payload, 0, payloadLength);
@@ -741,7 +741,7 @@ public class NotificationCommand : Command
 
         string[] args = header.Split(' ');
 
-        int payloadLength = Int32.Parse(args[1]);
+        int payloadLength = int.Parse(args[1]);
         byte[] payload = new byte[payloadLength];
 
         await reader.ReadAsync(payload, 0, payloadLength);
@@ -793,7 +793,7 @@ public class UserCommand : Command
         if (keyValues.ContainsKey("C"))
             this.Guid = keyValues["C"];
 
-        int listFlags = Int32.Parse(args[0]);
+        int listFlags = int.Parse(args[0]);
 
         var lists = new Dictionary<int, string> {
             { 1, "FL" },
@@ -869,7 +869,7 @@ public class PrivacySettingCommand : Command
         else
         {
             this.Key = args[0];
-            this.TrId = Int32.Parse(args[1]);
+            this.TrId = int.Parse(args[1]);
             this.Value = args[2];
         }
 
@@ -1003,7 +1003,7 @@ public class AcceptChallengeCommand : Command
 
         string[] args = header.Split(' ');
 
-        this.TrId = Int32.Parse(args[1]);
+        this.TrId = int.Parse(args[1]);
 
         return Task.FromResult<object>(null);
 
@@ -1045,7 +1045,7 @@ public class UserOnlineCommand : UserOnlineCommandBase
         this.Status = args[1];
         this.LoginName = args[2];
         this.Nickname = Uri.UnescapeDataString(args[3]);
-        this.Capabilities = UInt32.Parse(args[4]);
+        this.Capabilities = uint.Parse(args[4]);
 
         if (args.Length > 5)
             this.DisplayPicture = args[5];
@@ -1072,7 +1072,7 @@ public class InitialUserOnlineCommand : UserOnlineCommandBase
         this.Status = args[2];
         this.LoginName = args[3];
         this.Nickname = Uri.UnescapeDataString(args[4]);
-        this.Capabilities = UInt32.Parse(args[5]);
+        this.Capabilities = uint.Parse(args[5]);
 
         if (args.Length > 6)
             this.DisplayPicture = args[6];
@@ -1120,7 +1120,7 @@ public class PingCommand : Command
 
         string[] args = header.Split(' ');
 
-        this.UntilNext = Int32.Parse(args[1]);
+        this.UntilNext = int.Parse(args[1]);
 
         return Task.FromResult<object>(null);
 
@@ -1158,7 +1158,7 @@ public class SendBroadcastCommand : Command
 
         string[] args = header.Split(' ');
 
-        this.TrId = Int32.Parse(args[1]);
+        this.TrId = int.Parse(args[1]);
         this.OtherArg = args[2];
 
         return Task.FromResult<object>(null);
@@ -1194,9 +1194,9 @@ public class UserRosterCommand : Command
 
         string[] args = header.Split(' ');
 
-        this.TrId = Int32.Parse(args[1]);
-        this.CurrentIndex = Int32.Parse(args[2]);
-        this.TotalCount = Int32.Parse(args[3]);
+        this.TrId = int.Parse(args[1]);
+        this.CurrentIndex = int.Parse(args[2]);
+        this.TotalCount = int.Parse(args[3]);
         this.LoginName = args[4];
         this.NickName = Uri.UnescapeDataString(args[5]);
 
@@ -1285,7 +1285,7 @@ public class AnswerCommand : Command
     {
         string[] args = header.Split(' ');
 
-        this.TrId = Int32.Parse(args[1]);
+        this.TrId = int.Parse(args[1]);
         this.OtherArg = args[2];
 
         return Task.FromResult<object>(null);
@@ -1325,7 +1325,7 @@ public class AuthenticateIMCommand : Command
     {
         string[] args = header.Split(' ');
 
-        this.TrId = Int32.Parse(args[1]);
+        this.TrId = int.Parse(args[1]);
         this.OtherArg = args[2];
         this.LoginName = args[3];
         this.Nickname = Uri.UnescapeDataString(args[4]);
@@ -1363,7 +1363,7 @@ public class CallUserCommand : Command
     {
         string[] args = header.Split(' ');
 
-        this.TrId = Int32.Parse(args[1]);
+        this.TrId = int.Parse(args[1]);
         this.Response = args[2];
         this.SessionID = args[3];
 
@@ -1399,7 +1399,7 @@ public class AddGroupCommand : Command
     {
         string[] args = header.Split(' ');
 
-        this.TrId = Int32.Parse(args[1]);
+        this.TrId = int.Parse(args[1]);
         this.Name = Uri.UnescapeDataString(args[2]);
         this.Guid = args[3];
 
@@ -1433,7 +1433,7 @@ public class RemoveGroupCommand : Command
     {
         string[] args = header.Split(' ');
 
-        this.TrId = Int32.Parse(args[1]);
+        this.TrId = int.Parse(args[1]);
         this.Guid = args[2];
 
         return Task.FromResult<object>(null);
@@ -1469,7 +1469,7 @@ public class RenameGroupCommand : Command
     {
         string[] args = header.Split(' ');
 
-        this.TrId = Int32.Parse(args[1]);
+        this.TrId = int.Parse(args[1]);
 
         return Task.FromResult<object>(null);
     }
@@ -1549,7 +1549,7 @@ public class AddContactCommand : Command
 
         }
 
-        this.TrId = Int32.Parse(args[1]);
+        this.TrId = int.Parse(args[1]);
         this.List = args[2];
 
         if (keyValues.ContainsKey("N"))
@@ -1632,7 +1632,7 @@ public class RemoveContactCommand : Command
     {
         string[] args = header.Split(' ');
 
-        this.TrId = Int32.Parse(args[1]);
+        this.TrId = int.Parse(args[1]);
         this.List = args[2];
         this.LoginNameOrGuid = args[3];
 
@@ -1669,8 +1669,8 @@ public class ServerErrorCommand : Command
 
         string[] args = header.Split(' ');
 
-        this.ErrorCode = Int32.Parse(args[0]);
-        this.TrId = Int32.Parse(args[1]);
+        this.ErrorCode = int.Parse(args[0]);
+        this.TrId = int.Parse(args[1]);
 
         return Task.FromResult<object>(null);
 

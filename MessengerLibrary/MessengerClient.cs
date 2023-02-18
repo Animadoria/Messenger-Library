@@ -399,7 +399,7 @@ public class MessengerClient : IDisposable
     public async Task<Group> CreateGroupAsync(string name)
     {
 
-        if (String.IsNullOrEmpty(name))
+        if (string.IsNullOrEmpty(name))
             throw new ArgumentNullException("A name must be specified.");
 
         if (Encoding.UTF8.GetByteCount(name) > 61)
@@ -668,7 +668,7 @@ public class MessengerClient : IDisposable
     void SetPrivacySettingInner(PrivacySetting setting, string value)
     {
 
-        if (value == String.Empty)
+        if (value == string.Empty)
             privacySettings.Remove(setting);
 
         else if (!privacySettings.ContainsKey(setting))

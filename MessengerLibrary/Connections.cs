@@ -260,13 +260,13 @@ public class SocketEndPoint : IEndPoint
 
     public override string ToString()
     {
-        return String.Format("{0}:{1}", this.Address, this.Port);
+        return string.Format("{0}:{1}", this.Address, this.Port);
     }
 
     public static SocketEndPoint Parse(string s)
     {
         string[] parts = s.Split(':');
-        return new SocketEndPoint(parts[0], Int32.Parse(parts[1]));
+        return new SocketEndPoint(parts[0], int.Parse(parts[1]));
     }
 
 }

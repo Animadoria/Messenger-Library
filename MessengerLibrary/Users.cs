@@ -46,13 +46,13 @@ public class User
         if (properties.ContainsKey(property))
             return properties[property];
 
-        return String.Empty;
+        return string.Empty;
     }
 
     internal void SetPropertyInner(UserProperty property, string value)
     {
 
-        if (value == String.Empty && properties.ContainsKey(property))
+        if (value == string.Empty && properties.ContainsKey(property))
             properties.Remove(property);
 
         else if (properties.ContainsKey(property))
@@ -172,7 +172,7 @@ public class User
         }
     }
 
-    public static readonly string NoPhoneNumber = String.Empty;
+    public static readonly string NoPhoneNumber = string.Empty;
 
     public static readonly string MobileDeviceEnabled = "Y";
 
@@ -199,7 +199,7 @@ public class LocalUser : User
     public async Task ChangeNicknameAsync(string nickname)
     {
 
-        if (String.IsNullOrEmpty(nickname))
+        if (string.IsNullOrEmpty(nickname))
             throw new ArgumentNullException("A nickname must be specified.");
 
         if (Encoding.UTF8.GetByteCount(nickname) > 387)
@@ -375,7 +375,7 @@ public class LocalUser : User
         if (message.Length >= 999)
             throw new ArgumentException("The specified message was too long.");
 
-        if (String.IsNullOrEmpty(message))
+        if (string.IsNullOrEmpty(message))
             throw new ArgumentNullException("A message must be specified.");
 
         await client.@lock.ReaderLockAsync();
@@ -478,7 +478,7 @@ public struct MSNObject
         data = s;
     }
 
-    public override bool Equals(Object obj)
+    public override bool Equals(object obj)
     {
         return obj is MSNObject && this == (MSNObject)obj;
     }
